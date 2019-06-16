@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -9,11 +10,32 @@ import {
 } from './styles';
 
 class Main extends Component {
+  static propTypes = {
+    loadRequest: PropTypes.func.isRequired,
+    navigation: PropTypes.shape({
+      navigate: PropTypes.func,
+    }).isRequired,
+    podcasts: PropTypes.shape({
+      data: PropTypes.arrayOf(
+        PropTypes.shape({
+          id: PropTypes.number,
+          title: PropTypes.string,
+        }),
+      ),
+    }).isRequired,
+  };
+
   componentDidMount() {
     const { loadRequest } = this.props;
 
     loadRequest();
   }
+
+  handlePodcastPress = (podcast) => {
+    const { navigation } = this.props;
+
+    navigation.navigate('Podcast', { podcast });
+  };
 
   render() {
     const { podcasts } = this.props;
@@ -25,7 +47,7 @@ class Main extends Component {
           data={podcasts.data}
           keyExtractor={podcast => String(podcast.id)}
           renderItem={({ item: podcast }) => (
-            <Podcast onPress={() => {}}>
+            <Podcast onPress={() => this.handlePodcastPress(podcast)}>
               <Cover source={{ uri: podcast.cover }} />
               <Info>
                 <Title>{podcast.title}</Title>
