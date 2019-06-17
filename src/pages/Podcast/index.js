@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import PlayerActions from '~/store/ducks/player';
+
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import {
@@ -18,7 +22,7 @@ import {
   Author,
 } from './styles';
 
-export default class Podcast extends Component {
+class Podcast extends Component {
   static propTypes = {
     navigation: PropTypes.shape({
       navigate: PropTypes.func,
@@ -30,6 +34,13 @@ export default class Podcast extends Component {
 
     navigation.goBack();
   };
+
+  handlePlay = () => {
+    const { setPodcastRequest, navigation } = this.props;
+    const podcast = navigation.getParam('podcast');
+
+    setPodcastRequest(podcast)
+  }
 
   render() {
     const { navigation } = this.props;
@@ -49,7 +60,7 @@ export default class Podcast extends Component {
               <Cover source={{ uri: podcast.cover }} />
               <PodcastTitle>{podcast.title}</PodcastTitle>
 
-              <PlayButton onPress={() => {}}>
+              <PlayButton onPress={() => this.handlePlay()}>
                 <PlayButtonText>PLAY</PlayButtonText>
               </PlayButton>
             </PodcastDetails>
@@ -67,3 +78,8 @@ export default class Podcast extends Component {
     );
   }
 }
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(PlayerActions, dispatch);
+
+export default connect(null, mapDispatchToProps)(Podcast)

@@ -43,7 +43,10 @@ export const Controls = styled.View`
 
 export const ControlButton = styled.TouchableOpacity.attrs({
   hitSlop: {
-    top: 5, left: 5, right: 5, bottom: 5,
+    top: 5,
+    left: 5,
+    right: 5,
+    bottom: 5,
   },
 })`
   margin-left: 10px;
