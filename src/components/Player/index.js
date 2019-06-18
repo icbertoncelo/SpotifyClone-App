@@ -17,7 +17,7 @@ import {
 } from './styles';
 
 const Player = ({
-  player, currentEpisode, play, pause,
+  player, currentEpisode, play, pause, prev, next,
 }) => player.current && (
 <Container>
   <CoverBackground source={{ uri: currentEpisode.artwork }} />
@@ -28,13 +28,13 @@ const Player = ({
   </EpisodeInfo>
 
   <Controls>
-    <ControlButton onPress={() => {}}>
+    <ControlButton onPress={prev}>
       <ControlIcon name="skip-previous" />
     </ControlButton>
     <ControlButton onPress={player.playing ? pause : play}>
       <ControlIcon name={player.playing ? 'pause-circle-filled' : 'play-circle-filled'} />
     </ControlButton>
-    <ControlButton onPress={() => {}}>
+    <ControlButton onPress={next}>
       <ControlIcon name="skip-next" />
     </ControlButton>
   </Controls>
@@ -51,6 +51,10 @@ Player.propTypes = {
     title: PropTypes.string,
     artist: PropTypes.string,
   }),
+  play: PropTypes.func.isRequired,
+  pause: PropTypes.func.isRequired,
+  prev: PropTypes.func.isRequired,
+  next: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
