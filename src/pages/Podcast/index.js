@@ -27,6 +27,7 @@ class Podcast extends Component {
     navigation: PropTypes.shape({
       navigate: PropTypes.func,
     }).isRequired,
+    setPodcastRequest: PropTypes.func.isRequired,
   };
 
   handleBack = () => {
@@ -35,12 +36,12 @@ class Podcast extends Component {
     navigation.goBack();
   };
 
-  handlePlay = () => {
+  handlePlay = (episodeId) => {
     const { setPodcastRequest, navigation } = this.props;
     const podcast = navigation.getParam('podcast');
 
-    setPodcastRequest(podcast)
-  }
+    setPodcastRequest(podcast, episodeId);
+  };
 
   render() {
     const { navigation } = this.props;
@@ -68,7 +69,7 @@ class Podcast extends Component {
           data={podcast.tracks}
           keyExtractor={episode => String(episode.id)}
           renderItem={({ item: episode }) => (
-            <Episode>
+            <Episode onPress={() => this.handlePlay(episode.id)}>
               <Title>{episode.title}</Title>
               <Author>{episode.artist}</Author>
             </Episode>
@@ -79,7 +80,9 @@ class Podcast extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(PlayerActions, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators(PlayerActions, dispatch);
 
-export default connect(null, mapDispatchToProps)(Podcast)
+export default connect(
+  null,
+  mapDispatchToProps,
+)(Podcast);
