@@ -1,3 +1,1 @@
-export default async () => {
-  console.tron.log();
-};
+export default async () => {};

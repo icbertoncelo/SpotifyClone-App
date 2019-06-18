@@ -23,7 +23,10 @@ export const Background = styled.ImageBackground`
 
 export const BackButton = styled.TouchableOpacity.attrs({
   hitSlop: {
-    top: 5, left: 5, right: 5, bottom: 5,
+    top: 5,
+    left: 5,
+    right: 5,
+    bottom: 5,
   },
 })`
   position: absolute;
@@ -71,7 +74,7 @@ export const Episode = styled.TouchableOpacity`
 
 export const Title = styled.Text`
   font-size: 16px;
-  color: #fff;
+  color: ${({ active }) => (active ? '#1db954' : '#fff')};
 `;
 
 export const Author = styled.Text`
